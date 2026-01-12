@@ -15,11 +15,12 @@
             <h2>Welcome</h2>
             <p>Get started by exploring your documentation projects.</p>
             <div>{{message}}</div>
-            <form action="/emailSent" method="POST" enctype="multipart/form-data">
+            <form id="mainSender">
                 <input name="email" id="email" type="email" />
-                <button type="submit">Submit</button>
+                <button id="emailsender" type="submit">Submit</button>
             </form>
-            
+            <div id="emailVisual"></div>
         </div>
 </body>
+<script src="../static/index.js"></script>
 </html>

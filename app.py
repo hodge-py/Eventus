@@ -38,11 +38,9 @@ def main():
 def email():
     try:
         if request.method == 'POST':
-            user_message = request.form.get('email')
-        
-            response_message = f"Server received: '{user_message}'. Status: Success!"
-        
-            return jsonify(message=response_message)
+            #request = request.get_json()
+            print(request)
+            return jsonify("hey")
         
     except Exception as e:
         print("hey")
