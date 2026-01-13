@@ -15,12 +15,12 @@ def get_db_connection():
 @app.route('/')
 def index():
     try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT VERSION();")
-        db_version = cursor.fetchone()
-        cursor.close()
-        conn.close()
+        #conn = get_db_connection()
+        #cursor = conn.cursor()
+        #cursor.execute("SELECT VERSION();")
+        #db_version = cursor.fetchone()
+        #cursor.close()
+        #conn.close()
         return render_template('index.html',message="connected to db")
     except Exception as e:
         return f"Error connecting to database: {str(e)}"
