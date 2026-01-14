@@ -1,0 +1,53 @@
+html {
+    margin: 0;
+    padding: 0;
+}
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+#eventContent {
+    display: flex;
+    justify-content: center;
+    background-color: #121212;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+#eventBlock {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    background-color: #24292e;
+    width: 50vw;
+    padding: 2%;
+    margin-top: 1%;
+    border-radius: 3%;
+}
+
+#imgTmp {
+    width: 85%;
+}
+
+#headerTitle{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+}
+
+.time {
+    display: flex;
+
+}
+
+#timeForm {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 80%;
+}

@@ -3,19 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DocuGit</title>
+    <title>Eventus</title>
      <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Event Page</h1>
-        <p>Documentation management made simple</p>
-        
-    </header>
-        <div>
-            <h2>Info</h2>
-            <p>Get started by exploring your documentation projects.</p>
-            <div>{{message}}</div>
+        <div id="eventContent">
+            <div id="eventBlock">
+                <img id="imgTmp" src="{{ url_for('static', filename='greyScreen.jpg') }}"></img>
+                <div id="headerTitle">
+                    <input type="date" value="" disabled>
+                    <h1>EventName</h1>
+                </div>
+                <div id="timeForm">
+                    
+                    <div class="time">
+                        <p>Start:</p>
+                        <input type="time" />
+                    </div>
+
+                    <div class="time">
+                        <p>End:</p>
+                        <input type="time" />
+                    </div>
+
+                </div>
+                <p>Description</p>
+            </div>
         </div>
 
 </body>

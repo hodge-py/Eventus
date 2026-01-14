@@ -1,6 +1,9 @@
 import os
 import mysql.connector
 from flask import Flask, render_template, request, jsonify
+import smtplib
+import ssl
+from email.message import EmailMessage
 
 app = Flask(__name__)
 
@@ -38,14 +41,34 @@ def main():
 def email():
     try:
         if request.method == 'POST':
-            #request = request.get_json()
-            print(request)
+            data = request.get_json()
+            sender_email = "eventus1188@gmail.com"
+            receiver_email = data['email']
+            print(receiver_email)
+            password = "ygba fufj nnee vjmz"
+
+            msg = EmailMessage()
+            msg.set_content("Hello, this is a test email sent from Python in 2026!")
+            msg['Subject'] = "Python Email Test"
+            msg['From'] = sender_email
+            msg['To'] = receiver_email
+
+            context = ssl.create_default_context()
+
+            try:
+                with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+                    server.login(sender_email, password)
+                    server.send_message(msg)
+                print("Email sent successfully!")
+            except Exception as e:
+                print(f"Error: {e}")
+            
             return jsonify("hey")
         
     except Exception as e:
-        print("hey")
+        print(e)
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port,debug=True)

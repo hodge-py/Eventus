@@ -21,7 +21,7 @@ document.getElementById('mainSender').addEventListener("submit", async event => 
 
         const result = await response.json();
         console.log('Success:', result);
-        document.getElementById('emailVisual').textContent = "The event page link has been sent to your email";
+        document.getElementById('emailVisual').textContent = "The event page link has been sent to your email! Please check your junk folder if email does not appear.";
 
     } catch (error) {
         console.error('Error:', error);
