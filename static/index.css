@@ -19,6 +19,7 @@
             color: white;
             margin: 0;
             height: 20vh;
+            flex-grow: 1;
         }
 
         h1 {
@@ -49,4 +50,10 @@
 
         #emailVisual {
             padding: 2%;
+        }
+
+        #emailsender {
+            border-radius: 3%;
+            background-color: cyan;
+            border: 1px solid rgba(0,90,90);
         }

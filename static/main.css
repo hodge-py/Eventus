@@ -42,7 +42,7 @@ body {
 
 .time {
     display: flex;
-
+    padding-right: 3%;
 }
 
 #timeForm {
@@ -50,4 +50,8 @@ body {
     justify-content: left;
     align-items: center;
     width: 80%;
+}
+
+.timeText {
+    padding-right: 3%;
 }
