@@ -35,7 +35,7 @@ body {
 
 #headerTitle{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 80%;
 }
@@ -68,7 +68,13 @@ body {
 
 #description-sub {
     height: 100%; 
-    width: 100;
+    width: 100%;
     padding: 0;
     margin: 0;
+}
+
+#description-save {
+    display: flex;
+    justify-content: right;
+    width: 80%;
 }

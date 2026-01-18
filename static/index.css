@@ -19,7 +19,7 @@
             color: white;
             margin: 0;
             height: 20vh;
-            flex-grow: 1;
+            box-shadow: 0 0 1vh #00f3ff, inset 0 0 1vh #00f3ff;
         }
 
         h1 {
@@ -52,8 +52,30 @@
             padding: 2%;
         }
 
-        #emailsender {
-            border-radius: 3%;
-            background-color: cyan;
-            border: 1px solid rgba(0,90,90);
-        }
+      .cp-btn {
+  --color: #00f0ff; /* Neon Cyan */
+  font-family: sans-serif;
+  font-weight: 800;
+  color: var(--color);
+  background: transparent;
+  text-transform: uppercase;
+  padding: 12px 30px;
+  border: 2px solid var(--color);
+  cursor: pointer;
+  position: relative;
+  
+  /* The iconic clipped corner */
+  clip-path: polygon(92% 0, 100% 25%, 100% 100%, 8% 100%, 0% 75%, 0 0);
+  
+  /* Glow effect */
+  text-shadow: 0 0 8px var(--color);
+  box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+.cp-btn:hover {
+  background: var(--color);
+  color: #000;
+  box-shadow: 0 0 20px var(--color);
+  text-shadow: none;
+}

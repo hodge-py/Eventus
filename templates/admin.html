@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventus</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+        <div id="eventContent">
+            <div id="eventBlock">
+                <div id="headerTitle">
+                    <h1>Admin: {{ event.email }}</h1>
+                </div>
+                <div id="timeForm">
+
+                </div>
+                <div id="description">
+                <textarea id="description-sub">{{ event.description }}</textarea>
+                </div>
+                <div id="description-save">
+                    <button type="button">Save</button>
+                </div>
+
+            </div>
+        </div>
+
+</body>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+
+
+<script src="../static/main.js"></script>
+</html>

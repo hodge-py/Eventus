@@ -4,26 +4,57 @@ from flask import Flask, render_template, request, jsonify
 import smtplib
 import ssl
 from email.message import EmailMessage
+from nanoid import generate
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime, timezone
 
 app = Flask(__name__)
 
-def get_db_connection():
-    return mysql.connector.connect(
-        host=os.getenv('DB_HOST'),
-        user=os.getenv('DB_USER'),
-        password=os.getenv('DB_PASSWORD'),
-        database=os.getenv('DB_NAME')
-    )
+host=os.getenv('DB_HOST')
+user=os.getenv('MARIADB_USER')
+password=os.getenv('MARIADB_PASSWORD')
+database=os.getenv('MARIADB_DATABASE')
+root_pass = os.getenv('MARIADB_ROOT_PASSWORD')
+port = os.getenv("PORT")
+database_port = os.getenv("DB_PORT")
+
+app.config["SQLALCHEMY_DATABASE_URI"] = f"mariadb+mariadbconnector://{user}:{password}@{host}:{database_port}/{database}"
+app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_recycle": 3600}
+
+db = SQLAlchemy(app)
+
+def generate_slug():
+    return generate(size=14)
+
+class LinkPair(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    
+    admin_slug = db.Column(db.String(15), nullable=False, unique=True, default=generate_slug)
+    public_slug = db.Column(db.String(15), nullable=False, unique=True, default=generate_slug)
+
+    email = db.Column(db.String(100),nullable=False)
+
+    title = db.Column(db.String(100))
+
+    imageName = db.Column(db.String(200))
+
+    startTime = db.Column(db.DateTime)
+
+    endTime = db.Column(db.DateTime)
+
+    description = db.Column(db.String(10000))
+    
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    """
+    def __repr__(self):
+        return f'{self.email}'
+    """
+
 
 @app.route('/')
 def index():
     try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT VERSION();")
-        db_version = cursor.fetchone()
-        cursor.close()
-        conn.close()
         return render_template('index.html',message="connected to db")
     except Exception as e:
         return f"Error connecting to database: {str(e)}"
@@ -32,7 +63,8 @@ def index():
 @app.route('/event')
 def main():
     try:
-        return render_template('main.html')
+
+        return render_template('main.html', admin=False)
     except Exception as e:
         return f"Error"
     
@@ -42,14 +74,30 @@ def email():
     try:
         if request.method == 'POST':
             data = request.get_json()
-            sender_email = "eventus1188@gmail.com"
             receiver_email = data['email']
+            new_event = LinkPair(email=receiver_email)
+            db.session.add(new_event)
+            db.session.commit()
+            
+            # Generate full links only when showing them to the user
+            admin_url = f"{request.host_url}admin/{new_event.admin_slug}"
+            public_url = f"{request.host_url}view/{new_event.public_slug}"
+            
+            #return {"admin": admin_url, "public": public_url}
+
+            
+            sender_email = "eventus1188@gmail.com"
             print(receiver_email)
             password = "ygba fufj nnee vjmz"
 
             msg = EmailMessage()
-            msg.set_content("Hello, this is a test email sent from Python in 2026!")
-            msg['Subject'] = "Python Email Test"
+            msg.set_content(f"""
+                            Here are the links for accessing your event.
+                            Admin: {admin_url} 
+                            Public: {public_url}
+                            Thanks for using Eventus!
+                            """)
+            msg['Subject'] = "Eventus Links"
             msg['From'] = sender_email
             msg['To'] = receiver_email
 
@@ -67,8 +115,28 @@ def email():
         
     except Exception as e:
         print(e)
+        return jsonify("failure")
 
+
+@app.route('/admin/<slug>')
+def admin_dashboard(slug):
+    stmt = db.select(LinkPair).where(LinkPair.admin_slug == slug)
+    event = db.session.execute(stmt).scalar_one()
+    hold = {"email": event.email, "public_slug": event.public_slug, 
+            "created_at": event.created_at, "description":event.description}
+    
+    return render_template('admin.html', event=hold)
+
+@app.route('/view/<slug>')
+def view_dashboard(slug):
+
+    stmt = db.select(LinkPair).where(LinkPair.public_slug == slug)
+    event = db.session.execute(stmt)
+    
+    return render_template('main.html', event=event)
 
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port,debug=True)

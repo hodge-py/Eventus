@@ -9,25 +9,29 @@
 <body>
         <div id="eventContent">
             <div id="eventBlock">
+
                 <img id="imgTmp" src="{{ url_for('static', filename='greyScreen.jpg') }}"></img>
                 <div id="headerTitle">
-                    <input type="date" value="" disabled>
+                    <div id="datePick"></div>
                     <h1>EventName</h1>
                 </div>
                 <div id="timeForm">
 
                     <div class="time">
                         <p class="timeText">Start:</p>
-                        <input type="time" />
+                        <div id="startValue"></div>
                     </div>
 
                     <div class="time">
                         <p class="timeText">End:</p>
-                        <input type="time" />
+                        <div id="endValue"></div>
                     </div>
 
                 </div>
-                <p>Description</p>
+                <div id="description">
+                <p id="description-sub">Description</p>
+                </div>
+
             </div>
         </div>
 
