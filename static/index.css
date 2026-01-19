@@ -128,3 +128,10 @@ form {
     align-items: center;
     width: 50%;
 }
+
+a:link{
+    color:#00f0ff
+}
+a:visited{
+    color:#00b8ff
+}

@@ -6,3 +6,4 @@ python-dotenv
 mariadb
 nanoid
 mysqlclient
+gunicorn

@@ -44,7 +44,7 @@ class LinkPair(db.Model):
     admin_slug = db.Column(db.String(15), nullable=False, unique=True, default=generate_slug)
     public_slug = db.Column(db.String(15), nullable=False, unique=True, default=generate_slug)
 
-    email = db.Column(db.String(100),nullable=False)
+    email = db.Column(db.String(100))
 
     title = db.Column(db.String(100))
 
@@ -62,6 +62,9 @@ class LinkPair(db.Model):
     def __repr__(self):
         return f'{self.email}'
     """
+
+with app.app_context():
+    db.create_all()
 
 
 @app.route('/')
@@ -82,39 +85,16 @@ def email():
             db.session.add(new_event)
             db.session.commit()
             
-            # Generate full links only when showing them to the user
             admin_url = f"{request.host_url}admin/{new_event.admin_slug}"
             public_url = f"{request.host_url}view/{new_event.public_slug}"
             
             #return {"admin": admin_url, "public": public_url}
 
+            print(f"Admin URL: {admin_url}")
+
             
-            sender_email = "eventus1188@gmail.com"
-            print(receiver_email)
-            password = "ygba fufj nnee vjmz"
-
-            msg = EmailMessage()
-            msg.set_content(f"""
-                            Here are the links for accessing your event.
-                            Admin: {admin_url} 
-                            Public: {public_url}
-                            Thanks for using Eventus!
-                            """)
-            msg['Subject'] = "Eventus Links"
-            msg['From'] = sender_email
-            msg['To'] = receiver_email
-
-            context = ssl.create_default_context()
-
-            try:
-                with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-                    server.login(sender_email, password)
-                    server.send_message(msg)
-                print("Email sent successfully!")
-            except Exception as e:
-                print(f"Error: {e}")
-            
-            return jsonify("hey")
+           
+            return {"admin": admin_url, "public": public_url}
         
     except Exception as e:
         print(e)
@@ -197,7 +177,4 @@ def save_title():
     return jsonify({"test":"hey"})
 
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
-    port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port,debug=True)
