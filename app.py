@@ -15,10 +15,10 @@ import MySQLdb
 
 app = Flask(__name__)
 
-host=os.getenv('DB_HOST')
-user=os.getenv('MARIADB_USER')
-password=os.getenv('MARIADB_PASSWORD')
-database=os.getenv('MARIADB_DATABASE')
+host = os.getenv('DB_HOST') or os.getenv('MYSQLHOST')
+user = os.getenv('MARIADB_USER') or os.getenv('MYSQLUSER')
+password = os.getenv('MARIADB_PASSWORD') or os.getenv('MYSQLPASSWORD')
+database = os.getenv('MARIADB_DATABASE') or os.getenv('MYSQLDATABASE')
 root_pass = os.getenv('MARIADB_ROOT_PASSWORD')
 port = os.getenv("PORT")
 database_port = os.getenv("DB_PORT") or os.getenv("MYSQLPORT") or os.getenv("MARIADBPORT") or "3306"
