@@ -22,6 +22,9 @@ root_pass = os.getenv('MARIADB_ROOT_PASSWORD')
 port = os.getenv("PORT")
 database_port = os.getenv("DB_PORT")
 
+if not database_port or database_port.strip() == "":
+    database_port = "3306"
+
 app.config["SQLALCHEMY_DATABASE_URI"] = f"mariadb+mariadbconnector://{user}:{password}@{host}:{database_port}/{database}"
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_recycle": 3600}
 
