@@ -1,5 +1,6 @@
 import os
 import mysql.connector
+import uuid
 from flask import Flask, render_template, request, jsonify
 import smtplib
 import ssl
@@ -171,7 +172,7 @@ def save_title():
         else:
             dataFile = request.files
             if 'file' in dataFile:
-                filename2 = secure_filename(dataFile['file'].filename)
+                filename2 = secure_filename(uuid.uuid4().hex + dataFile['file'].filename)
 
                 stmt = db.update(LinkPair).where(LinkPair.admin_slug == request.form.get('secret')).values(imageName=filename2)
 
