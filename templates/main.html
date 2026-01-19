@@ -10,26 +10,26 @@
         <div id="eventContent">
             <div id="eventBlock">
 
-                <img id="imgTmp" src="{{ url_for('static', filename='greyScreen.jpg') }}"></img>
+                <img id="imgTmp" src="{{ url_for('static', filename=event.fileName) }}"></img>
                 <div id="headerTitle">
                     <div id="datePick"></div>
-                    <h1>EventName</h1>
+                    <h1>{{ event.title }} </h1>
                 </div>
                 <div id="timeForm">
 
                     <div class="time">
                         <p class="timeText">Start:</p>
-                        <div id="startValue"></div>
+                        <div id="startValue">{{ event.startTime }}</div>
                     </div>
 
                     <div class="time">
                         <p class="timeText">End:</p>
-                        <div id="endValue"></div>
+                        <div id="endValue">{{ event.endTime }}</div>
                     </div>
 
                 </div>
                 <div id="description">
-                <p id="description-sub">Description</p>
+                <p id="description-sub">{{ event.description }}</p>
                 </div>
 
             </div>
@@ -40,5 +40,5 @@
 
 
 
-<script src="../static/main.js"></script>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
 </html>
