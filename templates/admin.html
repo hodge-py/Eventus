@@ -12,23 +12,43 @@
                 <div id="headerTitle">
                     <h1>Admin: {{ event.email }}</h1>
                 </div>
+                <div>
+                    <p>Title:</p>
+                    <input id="titleData" type="text" value="{{ event.title }}" />
+                    <button id="titleButton">Save</button>
+                </div>
+                <div>
+                    <p>Image:</p>
+                    <input id="picFile" type="file" />
+                </div>
+                <div>
+                    <button id="savePic">Save</button>
+                </div>
                 <div id="timeForm">
-
+                    <div>
+                    <p>Start:</p>
+                    <input id="startTimeVal" type="datetime-local" />
+                    </div>
                 </div>
-                <div id="description">
+                <div>
+                    <p>End:</p>
+                    <input id="endTimeVal" type="datetime-local" />
+                </div>
+                <div>
+                    <button id="dateSaver">Save Start and End Time</button>
+                </div>
+                <div>
+                    <p>Description:</p>
+                </div>
                 <textarea id="description-sub">{{ event.description }}</textarea>
-                </div>
                 <div id="description-save">
-                    <button type="button">Save</button>
+                    <button id="descriptionSave" type="button">Save</button>
                 </div>
 
             </div>
         </div>
 
 </body>
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
-
-
-<script src="../static/main.js"></script>
+<script src="{{ url_for('static', filename='admin.js') }}"></script>
 </html>

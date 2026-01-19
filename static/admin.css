@@ -47,7 +47,7 @@ body {
 
 #timeForm {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
     width: 80%;
 }
@@ -67,14 +67,29 @@ body {
 }
 
 #description-sub {
-    height: 100%; 
-    width: 100%;
+    height: 15%; 
+    width: 80%;
     padding: 0;
     margin: 0;
+    border: 1px inset rgba(0, 219, 219, 0.5);
+    margin-top: 5%;
+    padding: 3%;
 }
 
 #description-save {
+    padding-top: 3%;
     display: flex;
     justify-content: right;
     width: 80%;
+}
+
+textarea {
+    background-color: #24292e;
+    color: aliceblue;
+}
+
+input {
+    background-color: #24292e;
+    color: aliceblue;
+    border: 1px inset rgba(0, 219, 219, 0.5);
 }

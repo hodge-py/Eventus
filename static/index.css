@@ -79,3 +79,52 @@
   box-shadow: 0 0 20px var(--color);
   text-shadow: none;
 }
+
+/* Basic reset and styling for all inputs */
+input[type="email"] {
+  /* Inherit font from parent for consistency */
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 10px 15px;
+  margin: 8px 0;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding/border are included in width calculation */
+  
+  /* Modern look: subtle border and rounded corners */
+  border: 1px solid #ccc;
+  border-radius: 4px; 
+  
+  /* Remove default glowing outline on focus */
+  outline: none;
+  
+  /* Smooth transitions for a modern feel */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Style the input when it is focused (clicked/tabbed into) */
+input[type="email"]:focus {
+  border-color: #007bff; /* A nice blue color for focus indication */
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Subtle glowing effect */
+}
+
+/* Style the placeholder text */
+input[type="email"]::placeholder {
+  color: #999;
+  opacity: 1; /* Ensures consistency across browsers */
+}
+
+#mailSender{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}

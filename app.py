@@ -1,5 +1,6 @@
 import os
 import mysql.connector
+import uuid
 from flask import Flask, render_template, request, jsonify
 import smtplib
 import ssl
@@ -7,6 +8,9 @@ from email.message import EmailMessage
 from nanoid import generate
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
+from pathlib import Path
+from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 
@@ -20,6 +24,12 @@ database_port = os.getenv("DB_PORT")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = f"mariadb+mariadbconnector://{user}:{password}@{host}:{database_port}/{database}"
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_recycle": 3600}
+
+directory = Path('uploads')
+
+directory.mkdir(exist_ok=True)
+
+app.config['UPLOAD_FOLDER'] = directory
 
 db = SQLAlchemy(app)
 
@@ -58,15 +68,6 @@ def index():
         return render_template('index.html',message="connected to db")
     except Exception as e:
         return f"Error connecting to database: {str(e)}"
-    
-
-@app.route('/event')
-def main():
-    try:
-
-        return render_template('main.html', admin=False)
-    except Exception as e:
-        return f"Error"
     
 
 @app.route('/emailSent', methods=['GET','POST'])
@@ -123,7 +124,8 @@ def admin_dashboard(slug):
     stmt = db.select(LinkPair).where(LinkPair.admin_slug == slug)
     event = db.session.execute(stmt).scalar_one()
     hold = {"email": event.email, "public_slug": event.public_slug, 
-            "created_at": event.created_at, "description":event.description}
+            "created_at": event.created_at, "description":event.description, 'title': event.title, 
+            'fileName':event.imageName}
     
     return render_template('admin.html', event=hold)
 
@@ -131,9 +133,66 @@ def admin_dashboard(slug):
 def view_dashboard(slug):
 
     stmt = db.select(LinkPair).where(LinkPair.public_slug == slug)
-    event = db.session.execute(stmt)
+    event = db.session.execute(stmt).scalar_one()
+    pathDir = Path(f"uploads/{event.imageName}")
+    hold = {"email": event.email, "public_slug": event.public_slug, 
+            "created_at": event.created_at, "description":event.description,
+            "title": event.title, 'fileName': pathDir, 'startTime': event.startTime, 'endTime': event.endTime}
     
-    return render_template('main.html', event=event)
+    return render_template('main.html', event=hold)
+
+
+@app.route('/admin/titleSave', methods=["POST"])
+def save_title():
+    if request.method == 'POST':
+        if request.is_json:
+            data = request.get_json()
+        
+            if 'title' in data:
+                stmt = db.update(LinkPair).where(LinkPair.admin_slug == data['secret']).values(title=data['title'])
+
+                db.session.execute(stmt)
+
+                db.session.commit()
+
+            elif 'description' in data:
+                stmt = db.update(LinkPair).where(LinkPair.admin_slug == data['secret']).values(description=data['description'])
+
+                db.session.execute(stmt)
+
+                db.session.commit()
+
+            elif 'start' in data:
+                stmt = db.update(LinkPair).where(LinkPair.admin_slug == data['secret']).values({LinkPair.startTime:data['start'],LinkPair.endTime:data['end']})
+
+                db.session.execute(stmt)
+
+                db.session.commit()
+
+        else:
+            dataFile = request.files
+            if 'file' in dataFile:
+                filename2 = secure_filename(uuid.uuid4().hex + dataFile['file'].filename)
+
+                stmt = db.update(LinkPair).where(LinkPair.admin_slug == request.form.get('secret')).values(imageName=filename2)
+
+                db.session.execute(stmt)
+
+                db.session.commit()
+
+                directory_path = Path(f"static/uploads")
+
+                directory_path.mkdir(parents=True, exist_ok=True)
+
+                newPath = Path(f"static/uploads/{filename2}")
+
+                dataFile['file'].save(newPath)
+
+
+
+
+
+    return jsonify({"test":"hey"})
 
 if __name__ == "__main__":
     with app.app_context():
