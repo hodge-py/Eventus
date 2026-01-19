@@ -21,6 +21,7 @@ document.getElementById("titleButton").addEventListener('click', async event => 
 
     const result = await response.json();
     console.log(result)
+    alert("Title Saved!")
 })
 
 document.getElementById("descriptionSave").addEventListener('click', async event => {
@@ -44,6 +45,7 @@ document.getElementById("descriptionSave").addEventListener('click', async event
 
     const result = await response.json();
     console.log(result)
+    alert("Description Saved!")
 })
 
 document.getElementById("dateSaver").addEventListener('click', async event => {    
@@ -68,6 +70,7 @@ document.getElementById("dateSaver").addEventListener('click', async event => {
 
     const result = await response.json();
     console.log(result)
+    alert("Dates Saved!")
 })
 
 document.getElementById("savePic").addEventListener('click', async event => {   
@@ -92,4 +95,5 @@ document.getElementById("savePic").addEventListener('click', async event => {
 
     const result = await response.json();
     console.log(result)
+    alert("Picture Saved!")
 })

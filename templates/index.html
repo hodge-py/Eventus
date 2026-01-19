@@ -17,7 +17,9 @@
                 <h2>Hello!</h2>
                 <p>Enter your email to generate a new event.</p>
                 <form id="mainSender">
+                    <!--
                     <input style="margin-bottom: 5%;" name="email" id="email" type="email" />
+                    -->
                     <button class="cp-btn" id="emailsender" type="submit">Submit</button>
                 </form>
                 <div class="" id="emailVisual"></div>
@@ -25,5 +27,5 @@
         </div>
 
 </body>
-<script src="../static/index.js"></script>
+<script src="{{ url_for('static', filename='index.js') }}"></script>
 </html>

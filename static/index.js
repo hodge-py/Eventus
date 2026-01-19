@@ -1,11 +1,9 @@
 document.getElementById('mainSender').addEventListener("submit", async event => {
     event.preventDefault();
-    const emailValue = document.getElementById("email").value
     
-    const data = {
-        email: emailValue,
+    data = {
+        "email": "test"
     };
-
     try {
         const response = await fetch('/emailSent', {
             method: 'POST', 
@@ -21,7 +19,9 @@ document.getElementById('mainSender').addEventListener("submit", async event => 
 
         const result = await response.json();
         console.log('Success:', result);
-        document.getElementById('emailVisual').textContent = "The event page link has been sent to your email! Please check your junk folder if email does not appear.";
+        document.getElementById('emailVisual').innerHTML = `<div>The event page links have been generated! Admin access link:
+        <a href=${result.admin} target=_blank>${result.admin}</a> | Public access link: <a target=_blank href=${result.public}>${result.public}</a> | Please save the links somewhere 
+        secure as they will disappear once the page is reloaded</div>`;
 
     } catch (error) {
         console.error('Error:', error);
