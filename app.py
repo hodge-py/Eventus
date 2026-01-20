@@ -67,17 +67,20 @@ class LinkPair(db.Model):
         return f'{self.email}'
     """
 
-with app.app_context():
-    retries = 5
-    while retries > 0:
-        try:
-            db.create_all()
-            print("Database tables created!")
-            break
-        except OperationalError:
-            retries -= 1
-            print(f"Waiting for database... {retries} retries left")
-            time.sleep(3) # Wait 3 seconds before trying again
+def setup_database():
+    with app.app_context():
+        for i in range(10):  # Try 10 times
+            try:
+                print(f"Connection attempt {i+1}...")
+                db.create_all()
+                print("Database connected and tables created!")
+                return
+            except Exception as e:
+                print(f"Database not ready yet: {e}")
+                time.sleep(3)  # Wait 3 seconds before next try
+        print("Could not connect to database after 10 attempts.")
+
+setup_database()
 
 
 @app.route('/')
@@ -190,4 +193,5 @@ def save_title():
     return jsonify({"test":"hey"})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=port,debug=True)
+    pass
+    #app.run(host="0.0.0.0", port=port,debug=True)
