@@ -1,4 +1,5 @@
 import os
+import time
 import mysql.connector
 import uuid
 from flask import Flask, render_template, request, jsonify
@@ -9,6 +10,7 @@ from nanoid import generate
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 from pathlib import Path
+from pymysql import OperationalError
 from werkzeug.utils import secure_filename
 import MySQLdb
 
@@ -66,7 +68,16 @@ class LinkPair(db.Model):
     """
 
 with app.app_context():
-    db.create_all()
+    retries = 5
+    while retries > 0:
+        try:
+            db.create_all()
+            print("Database tables created!")
+            break
+        except OperationalError:
+            retries -= 1
+            print(f"Waiting for database... {retries} retries left")
+            time.sleep(3) # Wait 3 seconds before trying again
 
 
 @app.route('/')
