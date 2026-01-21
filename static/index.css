@@ -29,19 +29,21 @@
         #mainBlock {
             display: flex;
             justify-content: center;
+            align-items: flex-start;
             background-color: #121212;
             margin: 0;
             height: 80vh;
             color: aliceblue;
+            padding-top: 2%;
         }
         
         #contentBlock {
             background-color: #24292e;
-            margin: 2%;
+
             padding: 2%;
             justify-items: center;
             width: 50vw;
-            
+            flex-grow: 0;
             order: 3px solid #00f3ff;
             box-shadow: 0 0 10px #00f3ff, inset 0 0 5px #00f3ff;
 
@@ -49,7 +51,10 @@
         }
 
         #emailVisual {
-            padding: 2%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4%;
         }
 
       .cp-btn {
@@ -134,4 +139,11 @@ a:link{
 }
 a:visited{
     color:#00b8ff
+}
+
+@media screen and (max-width: 768px) {
+  #contentBlock {
+    width: 80vw;
+    margin: 3%;
+  }
 }
