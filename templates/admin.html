@@ -10,19 +10,21 @@
         <div id="eventContent">
             <div id="eventBlock">
                 <div id="headerTitle">
-                    <h1>Admin: {{ event.email }}</h1>
+                    <h1>Admin</h1>
                 </div>
                 <div>
                     <p>Title:</p>
                     <input id="titleData" type="text" value="{{ event.title }}" />
-                    <button id="titleButton">Save</button>
                 </div>
+                    <div class="container">
+                        <button class="cp-btn" id="titleButton">Save</button>
+                    </div>
                 <div>
                     <p>Image:</p>
                     <input id="picFile" type="file" />
                 </div>
-                <div>
-                    <button id="savePic">Save</button>
+                <div class="container">
+                    <button class="cp-btn" id="savePic">Save</button>
                 </div>
                 <div id="timeForm">
                     <div>
@@ -34,15 +36,15 @@
                     <p>End:</p>
                     <input id="endTimeVal" type="datetime-local" />
                 </div>
-                <div>
-                    <button id="dateSaver">Save Start and End Time</button>
+                <div class="container">
+                    <button class="cp-btn" id="dateSaver">Save Start and End Time</button>
                 </div>
-                <div>
+                <div class="title-container">
                     <p>Description:</p>
                 </div>
                 <textarea id="description-sub">{{ event.description }}</textarea>
                 <div id="description-save">
-                    <button id="descriptionSave" type="button">Save</button>
+                    <button class="cp-btn" id="descriptionSave" type="button">Save</button>
                 </div>
 
             </div>
