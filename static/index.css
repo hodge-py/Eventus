@@ -145,5 +145,7 @@ a:visited{
   #contentBlock {
     width: 80vw;
     margin: 3%;
+    padding-left: 4%;
+    padding-right: 4%;
   }
 }
