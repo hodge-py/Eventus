@@ -1,7 +1,7 @@
 import os
 import mysql.connector
 import uuid
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, make_response
 import smtplib
 import ssl
 from email.message import EmailMessage
@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from werkzeug.utils import secure_filename
 import MySQLdb
+from functools import wraps
 
 
 app = Flask(__name__)
@@ -71,7 +72,21 @@ with app.app_context():
     db.create_all()
 
 
+
+def no_cache(view):
+    @wraps(view)
+    def no_cache_wrapper(*args, **kwargs):
+        response = make_response(view(*args, **kwargs))
+        # This tells the browser: "Don't store this, it's expired, check the server every time"
+        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
+    return no_cache_wrapper
+
+
 @app.route('/')
+@no_cache
 def index():
     try:
         return render_template('index.html',message="connected to db")
@@ -106,6 +121,7 @@ def email():
 
 
 @app.route('/admin/<slug>')
+@no_cache
 def admin_dashboard(slug):
     stmt = db.select(LinkPair).where(LinkPair.admin_slug == slug)
     event = db.session.execute(stmt).scalar_one()
@@ -116,6 +132,7 @@ def admin_dashboard(slug):
     return render_template('admin.html', event=hold)
 
 @app.route('/view/<slug>')
+@no_cache
 def view_dashboard(slug):
 
     stmt = db.select(LinkPair).where(LinkPair.public_slug == slug)

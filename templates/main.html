@@ -9,8 +9,7 @@
 <body>
         <div id="eventContent">
             <div id="eventBlock">
-
-                <img id="imgTmp" src="{% if event.fileName %}{{ url_for('static', filename='greyScreen.jpg') }}{% else %}{{ url_for('static', filename=event.fileName) }}{% endif %}"></img>
+                <img id="imgTmp" src="{% if event.fileName is none %}{{ url_for('static', filename='greyScreen.jpg') }}{% else %}{{ url_for('static', filename=event.fileName) }}{% endif %}"></img>
                 <div id="headerTitle">
                     <div id="datePick"></div>
                     <h1>{{ event.title }} </h1>
