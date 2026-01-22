@@ -1,4 +1,5 @@
 import os
+import time
 import mysql.connector
 import uuid
 from flask import Flask, render_template, request, jsonify, make_response
@@ -9,6 +10,7 @@ from nanoid import generate
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 from pathlib import Path
+from pymysql import OperationalError
 from werkzeug.utils import secure_filename
 import MySQLdb
 from functools import wraps
@@ -68,8 +70,20 @@ class LinkPair(db.Model):
         return f'{self.email}'
     """
 
-with app.app_context():
-    db.create_all()
+def setup_database():
+    with app.app_context():
+        for i in range(10):  # Try 10 times
+            try:
+                print(f"Connection attempt {i+1}...")
+                db.create_all()
+                print("Database connected and tables created!")
+                return
+            except Exception as e:
+                print(f"Database not ready yet: {e}")
+                time.sleep(3)  # Wait 3 seconds before next try
+        print("Could not connect to database after 10 attempts.")
+
+setup_database()
 
 
 
@@ -198,4 +212,5 @@ def save_title():
     return jsonify({"test":"hey"})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=port,debug=True)
+    pass
+    #app.run(host="0.0.0.0", port=port,debug=True)
