@@ -76,3 +76,13 @@ body {
     padding: 0;
     margin: 0;
 }
+
+@media screen and (max-width: 768px) {
+  #eventBlock {
+    width: 90vw;
+    margin: 3%;
+  }
+  #imgTmp {
+    height: 30%;
+  }
+}
