@@ -10,7 +10,7 @@
         <div id="eventContent">
             <div id="eventBlock">
 
-                <img id="imgTmp" src="{{ url_for('static', filename=event.fileName) }}"></img>
+                <img id="imgTmp" src="{% if event.fileName %}{{ url_for('static', filename=event.fileName) }}{% else %}{{ url_for('static', filename='greyScreen.jpg') }}{% endif %}"></img>
                 <div id="headerTitle">
                     <div id="datePick"></div>
                     <h1>{{ event.title }} </h1>

@@ -35,6 +35,8 @@ directory.mkdir(exist_ok=True)
 
 app.config['UPLOAD_FOLDER'] = directory
 
+#app.config['TEMPLATES_AUTO_RELOAD'] = True
+
 db = SQLAlchemy(app)
 
 def generate_slug():

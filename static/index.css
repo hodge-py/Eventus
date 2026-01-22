@@ -134,4 +134,16 @@ a:link{
 }
 a:visited{
     color:#00b8ff
+<<<<<<< Updated upstream
+=======
+}
+
+@media screen and (max-width: 768px) {
+  #contentBlock {
+    width: 80vw;
+    margin: 3%;
+    padding-left: 4%;
+    padding-right: 4%;
+  }
+>>>>>>> Stashed changes
 }
